@@ -1,0 +1,17 @@
+{
+  "dependencies": {
+    "casl": "^1.1.0",
+    "typescript": "^5.4.3",
+    "vue-router": "^4.3.0"
+  },
+  "devDependencies": {
+    "@rollup/plugin-commonjs": "^25.0.7",
+    "@rollup/plugin-node-resolve": "^15.2.3",
+    "@vue/compiler-sfc": "^3.4.21",
+    "rollup": "^4.13.0",
+    "rollup-plugin-vue": "^6.0.0"
+  },
+  "scripts": {
+    "build": "tsc -p tsconfig.json && rollup -c --bundleConfigAsCjs"
+  }
+}
