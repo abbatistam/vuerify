@@ -30,8 +30,7 @@ yarn add vue-router-authorization
 
 ```typescript
 import { RouterAuthorization, Route, Rule } from 'vue-router-authorization';
-import { createRouter, createWebHistory } from 'vue-router';
-import { Ability, AbilityBuilder } from 'casl';
+import { type Rule } from 'casl';
 
 // Define your permissions using CASL rules
 const permissions: Rule[] = [
