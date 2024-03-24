@@ -13,13 +13,14 @@ This library provides seamless integration between Vue Router and CASL to manage
 ## Installation
 
 You can install the library via npm or yarn:
-
+Soon...
+<!--
 ```bash
 npm install vue-router-authorization
 # or
 yarn add vue-router-authorization
 ```
-
+-->
 ## Usage
 
 1. Define your permissions using CASL rules.
