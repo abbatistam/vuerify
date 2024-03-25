@@ -8,6 +8,7 @@ This library provides seamless integration between Vue Router and CASL to manage
 - Associate permissions with Vue Router routes using meta fields.
 - Automatically restrict access to routes based on user permissions.
 - Dynamically update router configuration and permissions at runtime.
+- Generate authorized routes based on permissions for route rendering and navigation control.
 - Simple and flexible API for managing authorization in your Vue.js applications.
 
 ## Installation
