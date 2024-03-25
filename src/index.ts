@@ -10,7 +10,7 @@ import {
 import { Ability, type Rule } from "casl";
 
 export interface RouteMeta {
-  action?: string;
+  actions?: string | string[];
   subject?: string;
   [index: string | number]: any;
   [symbol: symbol]: any;
@@ -20,6 +20,7 @@ export interface Route {
   path: string;
   name: string;
   component?: any;
+  children?: Route[];
   meta?: RouteMeta;
 }
 
@@ -85,8 +86,18 @@ export class RouterAuthorization {
     from: RouteLocationNormalized,
     next: NavigationGuardNext
   ): void {
+    console.log(to);
+    if (!to) {
+      // Ruta no existe, redirigir a "unauthorized"
+      const unauthorizedRoute = this.config.unauthorizedRoute || "/";
+      next(unauthorizedRoute);
+      return;
+    }
     const { action, subject } = to.meta as RouteMeta;
-
+    /*console.log(action);
+    console.log(subject);
+    console.log(to);*/
+    console.log(this.router.getRoutes());
     if (
       to.name === this.config.unauthorizedRoute ||
       to.path === this.config.unauthorizedRoute
@@ -124,3 +135,52 @@ export class RouterAuthorization {
     this.config = newConfig;
   }
 }
+
+export const generateAuthorizedRoutes = (
+  routes: Route[],
+  permissions: Rule[]
+): Route[] => {
+  const authorizedRoutes: Route[] = [];
+
+  const traverseRoutes = (routes: Route[]): Route[] => {
+    const authorized: Route[] = [];
+
+    routes.forEach((route) => {
+      const { meta, children } = route;
+
+      // Verificar si la ruta tiene meta y permiso
+      if (meta && typeof meta === "object") {
+        const { subject, action } = meta as RouteMeta;
+        const hasPermission = permissions.some((permission) => {
+          if (permission.subject === subject) {
+            if (typeof permission.actions === "string") {
+              return permission.actions === action;
+            } else if (Array.isArray(permission.actions)) {
+              return permission.actions.includes(action);
+            }
+          }
+          return false;
+        });
+
+        if (!hasPermission) {
+          return; // Saltar esta ruta si no tiene permiso
+        }
+      }
+
+      // Agregar la ruta autorizada
+      const authorizedRoute: Route = { ...route, children: [] };
+      authorized.push(authorizedRoute);
+
+      // Recursivamente agregar las rutas hijas autorizadas
+      if (children && children.length > 0) {
+        const authorizedChildren = traverseRoutes(children);
+        authorizedRoute.children!.push(...authorizedChildren);
+      }
+    });
+
+    return authorized;
+  };
+
+  authorizedRoutes.push(...traverseRoutes(routes));
+  return authorizedRoutes;
+};
