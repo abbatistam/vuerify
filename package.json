@@ -1,4 +1,14 @@
 {
+  "name": "vuerify",
+  "version": "1.0.0-alpha.1",
+  "description": "This library provides seamless integration between Vue Router and CASL to manage navigation permissions based on defined rules. It allows you to easily set up and enforce authorization rules for your Vue.js applications, ensuring that users can access only the routes they are authorized to.",
+  "main": "index.ts",
+  "scripts": {
+    "build": "tsc -p tsconfig.json && rollup -c --bundleConfigAsCjs"
+  },
+  "keywords": ["vue-router", "casl"],
+  "author": "abbatistam",
+  "license": "MIT",
   "dependencies": {
     "casl": "^1.1.0",
     "typescript": "^5.4.3",
@@ -10,8 +20,5 @@
     "@vue/compiler-sfc": "^3.4.21",
     "rollup": "^4.13.0",
     "rollup-plugin-vue": "^6.0.0"
-  },
-  "scripts": {
-    "build": "tsc -p tsconfig.json && rollup -c --bundleConfigAsCjs"
   }
 }
